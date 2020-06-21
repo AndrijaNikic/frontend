@@ -12,12 +12,17 @@ import { MainMenu, MainMenuItem } from './components/MainMenu/MainMenu';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import ContactPage from './components/ContactPage/ContactPage';
 import AdministratorLoginPage from './components/AdministratorLoginPage/AdministratorLoginPage';
+import CategoryPage from './components/CategoryuPage/CategoryPage';
 
 
 const menuItems = [
   new MainMenuItem("Home", "/"),
   new MainMenuItem("Contact", "/contact"),
-  new MainMenuItem("Login", "/administrator/login")
+  new MainMenuItem("Login", "/administrator/login"),
+  new MainMenuItem("Category 1", "/category/1"),
+  new MainMenuItem("Category 2", "/category/2"),
+  new MainMenuItem("Category 3", "/category/3"),
+  new MainMenuItem("Category 4", "/category/4")
 ];
 
 ReactDOM.render(
@@ -28,9 +33,9 @@ ReactDOM.render(
         <Route exact path="/" component={ HomePage } />
         <Route path="/contact" component={ ContactPage } />
         <Route path="/administrator/login" component={ AdministratorLoginPage } />
+        <Route path="/category/:categoryId" component={ CategoryPage} />
       </Switch>
     </HashRouter>
-
   </React.StrictMode>,
   document.getElementById('root')
 );
