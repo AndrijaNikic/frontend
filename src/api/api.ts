@@ -18,8 +18,25 @@ export default function api(
                 }
         };   
         axios(requestData)
-        .then(res => responseHandler(res, resolve, requestData))
-        .catch(err => {
+        .then(res => responseHandler(res, resolve))
+        .catch(async err => {
+            if (err.response.status === 401) {
+                const newToken = await refreshToken();
+    
+                if (!newToken) {
+                    const response: ApiResponse = {
+                        status: 'login',
+                        data: null
+                    };
+                    return resolve(response); 
+                }
+    
+                saveToken(newToken);
+    
+                requestData.headers['Authorization'] = getToken();
+    
+                return await repeatRequest(requestData, resolve);
+            }
             const response: ApiResponse = {
                 status: 'error',
                 data: err
@@ -37,28 +54,9 @@ export interface ApiResponse {
 
 async function responseHandler(
     res: AxiosResponse<any>,
-    resolve: (value?: ApiResponse) => void,
-    requestData: AxiosRequestConfig
+    resolve: (value?: ApiResponse) => void
 ) {
     if (res.status < 200 || res.status >= 300) {
-
-        if (res.status === 401) {
-            const newToken = await refreshToken(requestData);
-
-            if (!newToken) {
-                const response: ApiResponse = {
-                    status: 'login',
-                    data: null
-                };
-                return resolve(response); 
-            }
-
-            saveToken(newToken);
-
-            requestData.headers['Authorization'] = getToken();
-
-            return await repeatRequest(requestData, resolve);
-        }
 
         const response: ApiResponse = {
             status: 'error',
@@ -103,9 +101,9 @@ export function saveRefreshToken(token: string) {
     localStorage.setItem('api_refresh_token', token);
 }
 
-async function refreshToken(requestData: AxiosRequestConfig): Promise<string | null> {
+async function refreshToken(): Promise<string | null> {
 
-    const path = 'administrator/refresh';
+    const path = 'auth/administrator/refresh';
     const data = {
         token: getRefreshToken()
     }
