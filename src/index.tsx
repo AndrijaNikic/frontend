@@ -12,17 +12,13 @@ import { MainMenu, MainMenuItem } from './components/MainMenu/MainMenu';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import ContactPage from './components/ContactPage/ContactPage';
 import AdministratorLoginPage from './components/AdministratorLoginPage/AdministratorLoginPage';
-import CategoryPage from './components/CategoryuPage/CategoryPage';
+import CategoryPage from './components/CategoryPage/CategoryPage';
 
 
 const menuItems = [
   new MainMenuItem("Home", "/"),
   new MainMenuItem("Contact", "/contact"),
   new MainMenuItem("Login", "/administrator/login"),
-  new MainMenuItem("Category 1", "/category/1"),
-  new MainMenuItem("Category 2", "/category/2"),
-  new MainMenuItem("Category 3", "/category/3"),
-  new MainMenuItem("Category 4", "/category/4")
 ];
 
 ReactDOM.render(
