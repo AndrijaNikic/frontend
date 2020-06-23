@@ -2,6 +2,7 @@ export default class ArticleType {
     articleId?: number;
     name?: string;
     description?: string;
-    imageUrl?: string;
+    imagePath?: string;
+    ingredients?: string;
     price?: number;
 }

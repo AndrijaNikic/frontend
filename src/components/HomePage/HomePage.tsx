@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CategoryType from '../../types/CategoryType';
 import { Link } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
+import { ApiConfig } from '../../config/api.config';
 
 interface HomePageState {
   categories: CategoryType[];
@@ -14,6 +15,7 @@ interface ApiCategoryDto {
   categoryId: number;
   name: string;
   description: string;
+  imagePath: string;
 }
 
 class HomePage extends React.Component {
@@ -50,6 +52,7 @@ class HomePage extends React.Component {
       return {
         categoryId: category.categoryId,
         name: category.name,
+        imagePath: category.imagePath,
         description: category.description,
         items: []
       };
@@ -87,6 +90,11 @@ class HomePage extends React.Component {
       <Col lg="3" md="4" sm="6" xs="12">
         <Card className="mb-3">
           <Card.Body>
+          <Card.Header>
+            <img alt={ category.name }
+                 src={ ApiConfig.PHOTO_PATH + 'small/' + category.imagePath }
+                 className="w-100" />
+          </Card.Header>
             <Card.Title as="p">{ category.name }</Card.Title>
             <Card.Text>
                 { category.description }
