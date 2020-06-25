@@ -48,7 +48,7 @@ class HomePage extends React.Component {
       return {
         categoryId: category.categoryId,
         name: category.name,
-        imagePath: category.imagePath,
+        imagePath: category.categoryPhotos.imagePath,
         description: category.description,
         items: []
       };

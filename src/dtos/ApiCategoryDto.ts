@@ -4,5 +4,8 @@ export default interface ApiCategoryDto {
         description: string;
         imagePath: string;
         measurement: string;
+        categoryPhotos: {
+                imagePath: string
+        };
       
 }
