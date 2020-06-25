@@ -6,17 +6,13 @@ import CategoryType from '../../types/CategoryType';
 import { Link } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
 import { ApiConfig } from '../../config/api.config';
+import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
+import ApiCategoryDto from '../../dtos/ApiCategoryDto';
 
 interface HomePageState {
   categories: CategoryType[];
 }
 
-interface ApiCategoryDto {
-  categoryId: number;
-  name: string;
-  description: string;
-  imagePath: string;
-}
 
 class HomePage extends React.Component {
   state: HomePageState;
@@ -68,6 +64,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <Container>
+        <RoledMainMenu role='visitor' />
                 <Card>
                     <Card.Body>
                         <Card.Title>

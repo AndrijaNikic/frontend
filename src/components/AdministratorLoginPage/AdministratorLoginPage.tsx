@@ -2,11 +2,12 @@ import React from "react";
 import { Container, Card, Form, Button, Col, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import api, { ApiResponse, saveToken, saveRefreshToken } from '../../api/api';
+import api, { ApiResponse, saveToken, saveRefreshToken, saveUsername } from '../../api/api';
 import { Redirect } from "react-router-dom";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 interface AdministratorLoginPageState {
-    email: string;
+    username: string;
     password: string;
     errorMessage: string;
     isLoggedIn: boolean;
@@ -19,7 +20,7 @@ export default class AdministratorLoginPage extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
+            username: '',
             password: '',
             errorMessage: '',
             isLoggedIn: false
@@ -52,7 +53,7 @@ export default class AdministratorLoginPage extends React.Component {
 
     private doLogin() {
         api('auth/administrator/login', 'post', {
-            username: this.state.email,
+            username: this.state.username,
             password: this.state.password
         }).then((res: ApiResponse) => {
             if (res.status === 'error') {
@@ -75,6 +76,7 @@ export default class AdministratorLoginPage extends React.Component {
 
                 saveToken(res.data.token);
                 saveRefreshToken(res.data.refreshToken);
+                saveUsername(res.data.username);
 
                 this.setLoginState(true);
 
@@ -86,12 +88,13 @@ export default class AdministratorLoginPage extends React.Component {
     render() {
         if (this.state.isLoggedIn === true) {
             return (
-                <Redirect to="/" />
+                <Redirect to="/administrator/dashboard" />
             );
         }
 
         return (
             <Container>
+                <RoledMainMenu role='visitor' />
                 <Col md={ { span: 6, offset: 3 } } >
                     <Card>
                         <Card.Body>
@@ -100,9 +103,9 @@ export default class AdministratorLoginPage extends React.Component {
                             </Card.Title>
                                 <Form>
                                     <Form.Group>
-                                        <Form.Label htmlFor="email">Username: </Form.Label>
-                                        <Form.Control type="emai" id="email"
-                                        value={ this.state.email }
+                                        <Form.Label htmlFor="username">Username: </Form.Label>
+                                        <Form.Control type="text" id="username"
+                                        value={ this.state.username }
                                         onChange={ event => this.formInputChanged(event as any) } />
                                     </Form.Group>
                                     <Form.Group>

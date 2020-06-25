@@ -85,7 +85,7 @@ async function responseHandler(
 
 function getToken(): string {
     const token = localStorage.getItem('api_token');
-    return 'Bearer' + token;
+    return 'Berer' + token;
 }
 
 export function saveToken(token: string) {
@@ -100,6 +100,15 @@ function getRefreshToken(): string {
 export function saveRefreshToken(token: string) {
     localStorage.setItem('api_refresh_token', token);
 }
+
+export function saveUsername(username: string){
+    localStorage.setItem('api_username', username);
+}
+
+// export function getUsername(): string {
+//     const token = localStorage.getItem('api_username');
+//     return 'Berer' + token;
+// }
 
 async function refreshToken(): Promise<string | null> {
 

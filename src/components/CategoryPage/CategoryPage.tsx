@@ -1,12 +1,12 @@
 import React from "react";
 import { Container, Card, Row, Col, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faListAlt, faSignature } from "@fortawesome/free-solid-svg-icons";
+import { faListAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 import CategoryType from "../../types/CategoryType";
 import ArticleType from "../../types/ArticleType";
 import api, { ApiResponse } from "../../api/api";
-import { Link } from "react-router-dom";
-import { ApiConfig } from "../../config/api.config";
+import SingleArticlePreview from "../SingleArticlePreview/SingleArticlePreview";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 interface CategoryPageProperties {
     match: {
@@ -82,6 +82,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperties
     render() {
         return(
             <Container>
+                <RoledMainMenu role='visitor' />
                 <Card>
                     <Card.Body>
                         <Card.Title>
@@ -133,7 +134,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperties
                 </Form.Group>
                 <Form.Group>
                     <Button variant="primary" block onClick={ () => this.applyFilter() }>
-                        <FontAwesomeIcon icon={ faSignature } /> Confirm
+                        <FontAwesomeIcon icon={ faCheck } /> Confirm
                     </Button>
                 </Form.Group>
             </>
@@ -168,27 +169,7 @@ export default class CategoryPage extends React.Component<CategoryPageProperties
 
     private singleArticle(article: ArticleType) {
         return(
-            <Col lg="3" md="4" sm="6" xs="12">
-                <Card className="mb-3">
-                    <Card.Header>
-                        <img alt={ article.name }
-                             src={ ApiConfig.PHOTO_PATH + 'small/' + article.imagePath }
-                             className="w-100" />
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Title as="p">
-                            <strong>{ article.name }</strong>
-                        </Card.Title>
-                        <Card.Text>
-                           Price: { Number(article.price) } RSD
-                        </Card.Text>
-                        <Link to={ `/article/${ article.articleId }` }
-                              className="btn btn-primary btn-block btn-sm">
-                            Open article page
-                        </Link>
-                    </Card.Body>
-                </Card>
-            </Col>
+            <SingleArticlePreview article={ article } />
         );
     }
 
@@ -226,12 +207,12 @@ export default class CategoryPage extends React.Component<CategoryPageProperties
         });
 
         const orderParts = this.state.filters.order.split(' ');
-        const orderBy = orderParts[0];
+        // const orderBy = orderParts[0];
         const orderDirection = orderParts[1].toUpperCase();
 
         api('api/article/filter/', 'post', {
             categoryId: Number(this.props.match.params.categoryId),
-            orderBy: orderBy,
+            orderBy: 'article.price',
             orderDirection: orderDirection
         })
         .then((res: ApiResponse) => {

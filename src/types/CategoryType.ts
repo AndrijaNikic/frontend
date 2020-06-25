@@ -5,6 +5,7 @@ export default class CategoryType {
     name?: string;
     description?: string;
     imagePath?: string;
+    measurement?: string;
     items?: ArticleType[];
     
 }
